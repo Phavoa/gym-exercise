@@ -28,7 +28,6 @@ const RightArrow = () => {
 };
 
 const HorizontalScrollbar = ({ data, bodyPart, setBodyPart }) => {
-    console.log(typeof(setBodyPart))
   return (
     <Box sx={{ overflowX: "auto" }}>
       <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>

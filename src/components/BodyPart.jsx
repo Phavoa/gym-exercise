@@ -1,5 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import Icon from "../assets/icons/gym.png";
+import SearchExercises from "./SearchExercises";
 
 const BodyPart = ({ item, setBodyPart, bodyPart }) => {
   return (
@@ -21,6 +22,7 @@ const BodyPart = ({ item, setBodyPart, bodyPart }) => {
         setBodyPart(item);
         window.scroll({top: 1800, left: 100, behavior: 'smooth'})
       }}
+
     >
       <img
         src={Icon}
