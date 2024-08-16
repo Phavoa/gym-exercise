@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const Exercises = ({ setExercises, exercises, bodyPart }) => {
 
-    console.log(bodyPart)
+    // console.log(exercises)
     const [currentPage, setCurrentpage] = useState(1);
     const exercisePerPage = 9;
 
@@ -20,7 +20,7 @@ const Exercises = ({ setExercises, exercises, bodyPart }) => {
     const paginate = (e, value) => {
         setCurrentpage(value);
 
-        window.scroll({top: 1800, behavior: 'smooth'})
+        window.scroll({top: 1200, behavior: 'smooth'})
     }
 
     useEffect(() => {
