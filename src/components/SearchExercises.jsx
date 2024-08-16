@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { fetchData } from "../utils/fetchData";
 import HorizontalScrollbar from "./HorizontalScrollbar";
 
-const SearchExercises = ({setExercises, bodyPart, setBodyPart}) => {
+const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   const [search, setSearch] = useState("");
   const [bodyParts, setBodyParts] = useState([]);
 
+  const handleClick = () => {
+    window.scroll({ top: 1200, behavior: "smooth" });
+  };
   
   useEffect(() => {
     const fetchExercisesData = async () => {
@@ -18,12 +21,10 @@ const SearchExercises = ({setExercises, bodyPart, setBodyPart}) => {
     fetchExercisesData();
   }, []);
 
-
-
   const handleSearch = async () => {
     if (search) {
       try {
-        const exerciseData = await fetchData(`exercises`);
+        const exerciseData = await fetchData("exercises");
         const searchExercises = exerciseData.filter(
           (exercise) =>
             exercise.name.toLowerCase().includes(search) ||
@@ -81,13 +82,20 @@ const SearchExercises = ({setExercises, bodyPart, setBodyPart}) => {
             position: "absolute",
             right: 0,
           }}
-          onClick={handleSearch}
+          onClick={() => {
+            handleSearch();
+            handleClick();
+          }}
         >
           Search
         </Button>
       </Box>
       <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
-        <HorizontalScrollbar data={bodyParts} bodyPart={bodyPart} setBodyPart={setBodyPart} />
+        <HorizontalScrollbar
+          data={bodyParts}
+          bodyPart={bodyPart}
+          setBodyPart={setBodyPart}
+        />
       </Box>
     </Stack>
   );

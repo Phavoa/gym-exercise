@@ -9,40 +9,70 @@ import SimilarExercises from "../components/SimilarExercises";
 const ExerciseDetail = () => {
   const [exerciseDetail, setExerciseDetail] = useState({});
   const [exerciseVideos, setExerciseVideos] = useState([]);
+  const [targetMuscleExercises, setTargetMuscleExercises] = useState([]);
+  const [equipmentExercises, setEquipmentExercises] = useState([]);
   const { id: exerciseid } = useParams();
 
+  // Fetch exercise details
   useEffect(() => {
-    const fetchExercisesData = async () => {
+    const fetchExerciseDetail = async () => {
       try {
-        let fetchedExercise = {};
-        let fetchedExerciseVideos = [];
-
         if (exerciseid) {
-          fetchedExercise = await fetchData(`exercises/exercise/${exerciseid}`);
-        setExerciseDetail(fetchedExercise);
-
-     
-          if(fetchedExercise.name) {
-            fetchedExerciseVideos = await fetchDataYouTube(`search?query=${exerciseDetail.name}`);
-        setExerciseVideos(fetchedExerciseVideos);
-
-          }
+          const fetchedExercise = await fetchData(
+            `exercises/exercise/${exerciseid}`
+          );
+          setExerciseDetail(fetchedExercise);
         }
-
       } catch (error) {
-        console.error("Error fetching exercise data", error);
+        console.error("Error fetching exercise detail", error);
       }
     };
 
-    fetchExercisesData();
+    fetchExerciseDetail();
   }, [exerciseid]);
 
-  console.log(exerciseDetail);
+  useEffect(() => {
+    const fetchExerciseRelatedData = async () => {
+      try {
+        const { name, target, equipment } = exerciseDetail;
+        
+        // Ensure all necessary fields are available before fetching related data
+        if (name && target && equipment) {
+          const [
+            fetchedExerciseVideos,
+            targetExerciseData,
+            equipmentExerciseData,
+          ] = await Promise.all([
+            fetchDataYouTube(`search?query=${name}`),
+            fetchData(`exercises/target/${target}`),
+            fetchData(`exercises/equipment/${equipment}`),
+          ]);
+
+          setExerciseVideos(fetchedExerciseVideos.contents);
+          setTargetMuscleExercises(targetExerciseData);
+          setEquipmentExercises(equipmentExerciseData);
+        }
+      } catch (error) {
+        console.error("Error fetching exercise related data", error);
+      }
+    };
+
+    fetchExerciseRelatedData();
+  }, [exerciseDetail]);
+
+  // console.log(equipmentExercises);
+
   return (
     <Box>
-      <Details exerciseDetail={exerciseDetail}/>
-      <ExerciseVideos exerciseVideos={exerciseVideos} name={exerciseDetail.name}/>
-      <SimilarExercises />
+      <Details exerciseDetail={exerciseDetail} />
+      <ExerciseVideos
+        exerciseVideos={exerciseVideos}
+        name={exerciseDetail.name}
+      />
+      <SimilarExercises
+        targetMuscleExercises={targetMuscleExercises}
+        equipmentExercises={equipmentExercises}
+      />
     </Box>
   );
 };

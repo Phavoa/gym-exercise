@@ -1,7 +1,9 @@
 import { Typography, Box, Stack } from "@mui/material";
 
 const ExerciseVideos = ({ exerciseVideos = [], name }) => {
-  const { contents } = exerciseVideos;
+  // Assuming exerciseVideos is directly an array and not an object with a 'contents' property.
+  if (!exerciseVideos.length) return "Loading...";
+
   return (
     <Box sx={{ marginTop: { lg: "203px", xs: "20px" } }} p="20px">
       <Typography
@@ -22,7 +24,7 @@ const ExerciseVideos = ({ exerciseVideos = [], name }) => {
         flexWrap="wrap"
         alignItems="center"
       >
-        {contents?.slice(0, 3)?.map((item, index) => (
+        {exerciseVideos.slice(0, 3).map((item, index) => (
           <a
             key={index}
             className="exercise-video"

@@ -35,7 +35,7 @@ const Navbar = () => {
         >
           Home
         </Link>
-        <a href="/exercise/:id" style={{textDecoration:"none", color: "#3A1212"}}>Exercise</a>
+        <a href="/exercise/0001" style={{textDecoration:"none", color: "#3A1212"}}>Exercise</a>
       </Stack>
     </Stack>
   );
